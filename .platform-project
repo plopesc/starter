@@ -1,0 +1,4 @@
+alias-group: bsp-starter
+name: bsp-starter
+path: /apps/web/bsp-starter
+docroot: web
