@@ -13,6 +13,19 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "isholgueras/starter_theme",
+                "version": "dev-custom",
+                "type": "drupal-theme",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/isholgueras/starter_theme.git",
+                    "reference": "master"
+                }
+            }
         }
     ],
     "require": {
@@ -21,7 +34,8 @@
         "cweagans/composer-patches": "~1.0",
         "drupal/core": "~8.0",
         "drush/drush": "~8.0",
-        "drupal/console": "~1.0"
+        "drupal/console": "~1.0",
+        "isholgueras/starter_theme": "dev-custom"
     },
     "require-dev": {
         "behat/mink": "~1.7",
