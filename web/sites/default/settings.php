@@ -1,50 +1,39 @@
 <?php
+
 /**
- * @file
- * Platform.sh example settings.php file for Drupal 8.
+ * Access control for update.php script.
  */
+$update_free_access = FALSE;
 
-// Default Drupal 8 settings.
-//
-// These are already explained with detailed comments in Drupal's
-// default.settings.php file.
-//
-// See https://api.drupal.org/api/drupal/sites!default!default.settings.php/8
-$databases = [];
-$config_directories = [];
-$settings['update_free_access'] = FALSE;
-$settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
-$settings['file_scan_ignore_directories'] = [
-  'node_modules',
-  'bower_components',
-];
+/**
+ * PHP settings.
+ */
+ini_set('session.gc_probability', 1);
+ini_set('session.gc_divisor', 100);
+ini_set('session.gc_maxlifetime', 200000);
+ini_set('session.cookie_lifetime', 2000000);
 
-// Install with the 'standard' profile for this example.
-//
-// As the settings.php file is not writable during install on Platform.sh (for
-// good reasons), Drupal will refuse to install a profile that is not defined
-// here.
+/**
+ * Fast 404 pages.
+ */
+$conf['404_fast_paths_exclude'] = '/\/(?:styles)\//';
+$conf['404_fast_paths'] = '/\.(?:txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i';
+$conf['404_fast_html'] = '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server.</p></body></html>';
+
+$local_settings = dirname(__FILE__) . '/settings.local.php';
+if (file_exists($local_settings)) {
+    include $local_settings;
+}
+$databases['default']['default'] = array (
+  'database' => 'data',
+  'username' => 'mysql',
+  'password' => 'mysql',
+  'prefix' => '',
+  'host' => 'mariadb',
+  'port' => '3306',
+  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+  'driver' => 'mysql',
+);
+$settings['hash_salt'] = 'fSSUl8eWgKhycAc5yiCVY-lCopEi8vRl68Uk-0EVt3uRdAtvYXjz1wV44HUZ4tGQto_YamhtyA';
 $settings['install_profile'] = 'standard';
-
-// The hash_salt should be a unique random value for each application.
-// If left unset, the settings.platformsh.php file will attempt to provide one.
-// You can also provide a specific value here if you prefer and it will be used
-// instead. In most cases it's best to leave this blank on Platform.sh. You
-// can configure a separate hash_salt in your settings.local.php file for
-// local development.
-// $settings['hash_salt'] = 'change_me';
-
-// Set up a config sync directory.
-//
-// This is defined inside the read-only "config" directory, deployed via Git.
-$config_directories[CONFIG_SYNC_DIRECTORY] = '../config/sync';
-
-// Automatic Platform.sh settings.
-if (file_exists($app_root . '/' . $site_path . '/settings.platformsh.php')) {
-  include $app_root . '/' . $site_path . '/settings.platformsh.php';
-}
-
-// Local settings. These come last so that they can override anything.
-if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
-  include $app_root . '/' . $site_path . '/settings.local.php';
-}
+$config_directories['sync'] = 'sites/default/files/config_JYzi_ZUn78__8JTSBNopik9aW6kJQlLjo8J37zG04xzeKEpJJ9NkRP9q85onx1HO5le0tUL79g/sync';
