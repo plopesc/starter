@@ -1,38 +1,36 @@
 <?php
+
 /**
  * @file
  * Platform.sh settings.
+ *
+ * Taken from https://github.com/platformsh/platformsh-example-drupal8/blob/master/web/sites/default/settings.platformsh.php.
  */
 
 // Configure the database.
 if (isset($_ENV['PLATFORM_RELATIONSHIPS'])) {
   $relationships = json_decode(base64_decode($_ENV['PLATFORM_RELATIONSHIPS']), TRUE);
-  if (empty($databases['default']) && !empty($relationships)) {
-    foreach ($relationships as $key => $relationship) {
-      $drupal_key = ($key === 'database') ? 'default' : $key;
-      foreach ($relationship as $instance) {
-        if (empty($instance['scheme']) || ($instance['scheme'] !== 'mysql' && $instance['scheme'] !== 'postgresql')) {
-          continue;
-        }
-        $database = [
-          'driver' => $instance['scheme'],
-          'database' => $instance['path'],
-          'username' => $instance['username'],
-          'password' => $instance['password'],
-          'host' => $instance['host'],
-          'port' => $instance['port'],
-        ];
-        
-        if (!empty($instance['query']['compression'])) {
-          $database['pdo'][PDO::MYSQL_ATTR_COMPRESS] = TRUE;
-        }
-        
-        if (!empty($instance['query']['is_master'])) {
-          $databases[$drupal_key]['default'] = $database;
-        }
-        else {
-          $databases[$drupal_key]['replica'][] = $database;
-        }
+
+  if (!empty($relationships['database'])) {
+    foreach ($relationships['database'] as $endpoint) {
+      $database = [
+        'driver' => $endpoint['scheme'],
+        'database' => $endpoint['path'],
+        'username' => $endpoint['username'],
+        'password' => $endpoint['password'],
+        'host' => $endpoint['host'],
+        'port' => $endpoint['port'],
+      ];
+
+      if (!empty($endpoint['query']['compression'])) {
+        $database['pdo'][PDO::MYSQL_ATTR_COMPRESS] = TRUE;
+      }
+
+      if (!empty($endpoint['query']['is_master'])) {
+        $databases['default']['default'] = $database;
+      }
+      else {
+        $databases['default']['replica'][] = $database;
       }
     }
   }
@@ -59,7 +57,7 @@ if (isset($_ENV['PLATFORM_APP_DIR'])) {
 }
 
 // Set trusted hosts based on Platform.sh routes.
-if (isset($_ENV['PLATFORM_ROUTES']) && !isset($settings['trusted_host_patterns'])) {
+if (isset($_ENV['PLATFORM_ROUTES'])) {
   $routes = json_decode(base64_decode($_ENV['PLATFORM_ROUTES']), TRUE);
   $settings['trusted_host_patterns'] = [];
   foreach ($routes as $url => $route) {
