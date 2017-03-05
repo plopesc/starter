@@ -91,6 +91,7 @@ mounts:
 hooks:
     # The deploy hook runs after your application has been deployed and started.
     deploy: |
+        cd /app/web
         logger "Platform.sh Deploy: Code deployed to $PLATFORM_BRANCH. Reinstalling $PLATFORM_BRANCH from scratch"
         drush -y site-install standard --account-pass=admin --db-url=mysql://``:``@database.internal/main --uri=platform.sh
         logger "Platform.sh Deploy: Clearing cache."
