@@ -78,6 +78,7 @@ $file_included = FALSE;
 foreach ($env_include as $settings_file => $wildcards) {
   foreach ($wildcards as $wildcard) {
     if (strpos($_SERVER['HTTP_HOST'], $wildcard) !== FALSE) {
+      echo "Including $settings_file";
       include_once __DIR__ . '/' . $settings_file;
       $file_included = TRUE;
       break 2;
