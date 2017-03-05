@@ -91,7 +91,7 @@ mounts:
 hooks:
     # The deploy hook runs after your application has been deployed and started.
     deploy: |
-      ./scripts/rebuild.sh
+      ./scripts/rebuild.sh full
 
 # The configuration of scheduled execution.
 crons:

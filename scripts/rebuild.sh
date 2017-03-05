@@ -12,13 +12,6 @@ INSTALL_FRESH_SITE="TRUE"
 
 DATE=$( date +%s )
 
-read -p "The site will be rebuilt in *$MODE* mode. If full mode is selected, this script will install and update composer dependencies and reinstall the site. Quick mode will only drop database and reinstall the site. Are you sure? (y/n)" -n 1 -r
-echo    # (optional) move to a new line
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
-    exit 1
-fi
-
 which drupal
 if [[ $(drush --version) != *8.1.7* ]]; then
     echo "WARNING: Not using recommended Drush version"
