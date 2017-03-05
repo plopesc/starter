@@ -91,11 +91,7 @@ mounts:
 hooks:
     # The deploy hook runs after your application has been deployed and started.
     deploy: |
-      cd web
-      drush -y cache-rebuild
-      drush -y updatedb
-      drush -y config-import
-      drush -y entup
+      ./scripts/rebuild.sh
 
 # The configuration of scheduled execution.
 crons:
