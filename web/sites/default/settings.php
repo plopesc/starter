@@ -53,7 +53,7 @@ $settings['install_profile'] = 'standard';
 
 
 $databases['default']['default'] = array(
-  'database' => 'data',
+  'database' => 'dev',
   'username' => 'mysql',
   'password' => 'mysql',
   'prefix' => '',
