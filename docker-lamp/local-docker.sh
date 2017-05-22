@@ -5,7 +5,7 @@ OPERATION=${1}
 CONTAINER=${2:-web_1}
 PROJECT_NAME=$(basename `pwd` | sed 's/-//g' | tr '[:upper:]' '[:lower:]')
 #PROJECT_NAME=`echo $PROJECT_NAME`  $PROJECT_NAME  $PROJECT_NAME
-USAGE="Usage: ./docker-lamp/local-docker.sh start|stop|restart|status|goto [web|mysql|...]"
+USAGE="Usage: ./docker-lamp/local-docker.sh start|stop|restart|status|goto [web|mysql|...]|gotoroot [web|mysql|...]"
 
 
 if [ -z $OPERATION ]
