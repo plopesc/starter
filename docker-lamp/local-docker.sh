@@ -44,7 +44,7 @@ elif [[ $OPERATION == "goto" ]];
 elif [[ $OPERATION == "gotoroot" ]];
     then
     echo "Accesing to '${PROJECT_NAME}_${CONTAINER}'"
-    docker exec -it  --user=me ${PROJECT_NAME}_${CONTAINER} /bin/bash
+    docker exec -it  --user=root ${PROJECT_NAME}_${CONTAINER} /bin/bash
 else 
     echo "Unknown operation '$OPERATION'"
     echo $USAGE
