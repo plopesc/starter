@@ -51,3 +51,13 @@ services:
       - mysql
     environment:
       - PMA_HOST=mysql
+  solr:
+    image: solr:5.4.1
+    ports:
+     - "8983:8983"
+    volumes:
+      - ./docker-lamp/data/solr/bsp:/opt/solr/server/solr/bsp
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - mycore
